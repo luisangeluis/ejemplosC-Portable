@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-
+//CLASE MAIN
 class Program
 {
     static void Main() {
@@ -12,7 +12,7 @@ class Program
         Console.Write("Sum of x + y = "+ z);
     }
 }
-
+//CLASE PRODUCTO
 public class CProducto{
     
     public string Codigo {set; get;}
@@ -21,9 +21,27 @@ public class CProducto{
     public int Cantidad {set; get;}
     public double Valor{set; get;}
     
+    public void sumarCantidad(int pCantidad){
+        Cantidad +=pCantidad;
+    }
+    
+    public void modificarNombre(string pNombre){
+        Nombre = pNombre;
+    }
+    
+    public void modificarCategoria(string pCategoria){
+        Categoria = pCategoria;
+    }
+    
+    public void modificarValor(double pValor){
+        Valor = pValor;
+    }
+    
     
 }
+//FIN DE LA CLASE PRODUCTO
 
+//CLASE DISPENSADORA
 class CDispensadora{
     
     public List<CProducto> Productos {set; get;}
@@ -51,6 +69,7 @@ class CDispensadora{
         
     }
     
+    //METODO PARA VALIDAR PRODUCTO
     public int validarProducto(string pCodigo){
         int posicion=-1;
         
@@ -65,6 +84,7 @@ class CDispensadora{
         
     }
     
+    //METODO PARA AGREGAR PRODUCTO
     public bool agregarProducto(CProducto pProducto){
         
         int posicion =-1; 
@@ -72,16 +92,76 @@ class CDispensadora{
         
         if(posicion>=0){
             
-            //Revisar el metodo que usaron en el curso
-            /*****************************************/
-            /*****************************************/
-            Productos[posicion].Cantidad +=1;
+             //Productos[posicion].Cantidad +=1;
+            
+            Productos[posicion].sumarCantidad(pProducto.Cantidad);
         }else{
             Productos.Add(pProducto);
 
         }
         
         return true;
+    }
+    
+    //METODO PARA ELIMINAR PRODUCTO
+    public bool eliminarProducto(string pCodigo){
+        
+        int posicion = validarProducto(pCodigo);
+        
+        if(posicion>=0){
+            Productos.RemoveAt(posicion);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    //METODO PARA MODIFICAR PRODUCTO
+    //PROPIEDADES A MODIFICAR (NOMBRE,CATEGORIA,VALOR)
+    public bool modificarProducto(string pCodigo){
+        
+        int posicion=validarProducto(pCodigo);
+        string valor;
+        int opcion=0;
+        
+        if(posicion>=0){
+            
+            Console.WriteLine("Que valor quieres modificar");
+            Console.WriteLine("1.-NOMBRE");
+            Console.WriteLine("2.-CATEGORIA");
+            Console.WriteLine("3.-VALOR");
+            valor=Console.ReadLine();
+            opcion = Convert.ToInt32(valor);
+            
+            switch(opcion){
+                case 1:
+                    string nombre;
+                    Console.WriteLine("Ingresa nombre");
+                    nombre = Console.ReadLine();
+                    Productos[posicion].modificarNombre(nombre);
+
+                break;
+                
+                case 2:
+                    string categoria;
+                    Console.WriteLine("Ingresa categoria");
+                    categoria = Console.ReadLine();
+                    Productos[posicion].modificarCategoria(categoria);
+                break;
+                
+                case 3:
+                    double val;
+                    Console.WriteLine("Ingresa valor");
+                    val = Convert.ToDouble(Console.ReadLine());
+                    Productos[posicion].modificarValor(val);
+                break;
+            }
+            
+            //Productos[posicion]
+            return true;
+        }
+                    return false;
+
     }
     
     
