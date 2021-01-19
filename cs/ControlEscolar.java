@@ -1,10 +1,16 @@
+import java.util.ArrayList;
+
 public class MyClass {
     public static void main(String args[]) {
-      int x=10;
-      int y=25;
-      int z=x+y;
+      
+      CMovimientos baseDatos = new CMovimientos();
+      
+      CMaestro maestro = new CMaestro("luis","01");
+      CAlumno alumno = new CAlumno("angel","02");
+      baseDatos.agregarPersona(alumno);
+      baseDatos.agregarPersona(alumno);
 
-      System.out.println("Sum of x+y = " + z);
+      baseDatos.recorrerLista();
     }
     
     //agregar alumnos y maestros
@@ -12,7 +18,7 @@ public class MyClass {
 }
 
 
-
+//CLASE CONTROLADORA
 class CMovimientos{
     
     private ArrayList<CAlumno> alumnos = new ArrayList<CAlumno>();
@@ -25,16 +31,16 @@ class CMovimientos{
         int posicion=-1;
         
         if(pPersona instanceof CAlumno){
-            for(int x=0; x<alumnos.length; x++){
-                if(alumnos[x].getMatricula()==pMatricula){
+            for(int x=0; x<alumnos.size(); x++){
+                if(alumnos.get(x).getMatricula()==pMatricula){
                     posicion=x;
                 }
             }
         }
         
         if(pPersona instanceof CMaestro){
-            for(int x=0; x<CMaestro.length; x++){
-                if(maestros[x].getMatricula()==pMatricula){
+            for(int x=0; x<maestros.size(); x++){
+                if(maestros.get(x).getMatricula()==pMatricula){
                     posicion=x;
                 }
             }
@@ -43,9 +49,35 @@ class CMovimientos{
        return posicion; 
     }
     
-    public void agregarPersona(CPersona pPersona){
+    //agregar persona
+    public boolean agregarPersona(CPersona pPersona){
+        int posicion = validarPersona(pPersona.getMatricula(),pPersona);
+        
+        if(posicion>=0){
+            System.out.println("LA PERSONA YA EXISTE");
+            return false;
+        }else{
+            
+            if(pPersona instanceof CAlumno){
+                alumnos.add((CAlumno)pPersona);
+            }
+            
+            if(pPersona instanceof CMaestro){
+                maestros.add((CMaestro)pPersona);
+
+            }
+            
+        }
+        return true;
         
         
+    }
+    
+    public void recorrerLista(){
+        
+        for(CAlumno alumno : alumnos){
+            System.out.println(alumno);
+        }
     }
 
     
@@ -65,6 +97,7 @@ class CPersona{
     public String toString(){
         String datos;
         datos = "Nombre: "+nombre+"\r\nMatricula: "+matricula; 
+        return datos;
     }
     
     
@@ -81,11 +114,18 @@ class CPersona{
 //CLASE ALUMNO
 class CAlumno extends CPersona{
     
+    public CAlumno(String pNombre, String pMatricula){
+        super(pNombre,pMatricula);
+    }
 }
 
 //CLASE MAESTRO
 
 class CMaestro extends CPersona{
+    
+    public CMaestro(String pNombre, String pMatricula){
+        super(pNombre,pMatricula);
+    }
     
 }
 
@@ -97,9 +137,15 @@ class CMaestro extends CPersona{
 class CRegistro{
     private String nombre;
     
+    public String getNombre(){
+        return nombre;
+    }
+    
     public CRegistro(String pNombre){
         nombre = pNombre;
     }
+    
+    
     
     public String toString(){
         String datos;
@@ -114,10 +160,14 @@ class CRegistro{
 
 class CAula extends CRegistro{
     
+    public CAula(String pNombre){
+        super(pNombre);
+    }
+    
     @Override
     public String toString(){
         String datos;
-        datos: = "Nombre del aula: "+nombre;
+        datos = "Nombre del aula: "+getNombre();
         return datos;
     }
 }
@@ -126,10 +176,14 @@ class CAula extends CRegistro{
 
 class CMateria extends CRegistro{
     
+    public CMateria(String pNombre){
+        super(pNombre);
+    }
+    
     @Override
     public String toString(){
         String datos;
-        datos: = "Nombre de la materia: "+nombre;
+        datos = "Nombre de la materia: "+getNombre();
         return datos;
     }
 }
@@ -138,10 +192,14 @@ class CMateria extends CRegistro{
 
 class CGrupo extends CRegistro{
     
+    public CGrupo(String pNombre){
+        super(pNombre);
+    }
+    
     @Override
     public String toString(){
         String datos;
-        datos: = "Nombre del grupo: "+nombre;
+        datos = "Nombre del grupo: "+getNombre();
         return datos;
     }
 }
