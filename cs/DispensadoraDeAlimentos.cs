@@ -21,6 +21,8 @@ public class CProducto{
     public int Cantidad {set; get;}
     public double Valor{set; get;}
     
+    public double Cambio{set; get;}
+    
     public void sumarCantidad(int pCantidad){
         Cantidad +=pCantidad;
     }
@@ -36,6 +38,16 @@ public class CProducto{
     public void modificarValor(double pValor){
         Valor = pValor;
     }
+    
+    //METODO PARA VALIDAR CANTIDAD
+    
+    public bool validarCantidad(){
+        if(Cantidad>0){
+            return true;
+        }
+        return false;
+    }
+    
     
     
 }
@@ -163,6 +175,23 @@ class CDispensadora{
                     return false;
 
     }
+    
+    
+    public CProducto vender(string pCodigo){
+        
+        posicion = validarProducto(pCodigo);
+        
+        if(posicion>=0){
+            
+            if(Productos[posicion].validarCantidad()){
+                
+            }
+            
+        }
+        
+        return null;
+    }
+    
     
     
 }
