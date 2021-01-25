@@ -48,7 +48,20 @@ public class CProducto{
         return false;
     }
     
+    public bool validarValor(double pValor){
+        
+        if(Valor <=pValor){
+            Cambio = pValor - Valor;
+              
+            return true;  
+        }
+        return false;
+    }
     
+    //METODO DESCONTAR PRODUCTO
+    public void restarProducto(){
+        Cantidad--;
+    }
     
 }
 //FIN DE LA CLASE PRODUCTO
@@ -175,15 +188,36 @@ class CDispensadora{
                     return false;
 
     }
-    
-    
+    //VALIDAR MONEDAS
+    public double validarMonedas(string[] monedas){
+        
+        double total=0;
+        
+        foreach(string moneda in monedas){
+            try{
+                
+                total +=Convert.ToDouble(moneda);
+            }catch(Exception e){
+                
+            }
+        }
+        return total;
+    }
+    //METODO PARA VENDER PRODUCTO
     public CProducto vender(string pCodigo){
         
-        posicion = validarProducto(pCodigo);
+        int posicion = validarProducto(pCodigo);
         
         if(posicion>=0){
             
             if(Productos[posicion].validarCantidad()){
+                
+                string []monedas = Pago.Split('-'); 
+                double total = validarMonedas(monedas);
+                if(Productos[posicion].validarValor(total)){
+                    Productos[posicion].restarProducto();
+                    return Productos[posicion];
+                }
                 
             }
             
