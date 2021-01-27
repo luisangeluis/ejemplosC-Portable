@@ -8,8 +8,68 @@ class Program
         int x = 10;
         int y = 25;
         int z = x + y;
+        
+        string opcion;
+        
+        CDispensadora dispensadora = new CDispensadora();
+        
 
-        Console.Write("Sum of x + y = "+ z);
+        //Console.Write("Sum of x + y = "+ z);
+        
+        Console.WriteLine("Dispensadora de alimentos");
+        
+        while(true){
+            Console.WriteLine("Elige una opcion");
+            Console.WriteLine("1. Agregar producto");
+            Console.WriteLine("2. Eliminar producto");
+            Console.WriteLine("3. Modificar producto");
+            Console.WriteLine("4. Vender producto");
+            opcion = Console.ReadLine();
+            
+            switch (opcion){
+                case "1":
+                    CProducto producto = new CProducto();
+                    
+                    
+                    Console.WriteLine("Ingresa codigo");
+                    producto.Codigo = Console.ReadLine();
+                    Console.WriteLine("Ingresa nombre");
+                    producto.Nombre = Console.ReadLine(); 
+                    Console.WriteLine("Ingresa categoria");
+                    producto.Categoria = Console.ReadLine();
+                    Console.WriteLine("Ingresa cantidad");
+                    producto.Cantidad = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Ingresa valor");
+                    producto.Valor = Convert.ToDouble(Console.ReadLine());
+                    
+                    if(dispensadora.agregarProducto(producto)){
+                        Console.WriteLine("Producto agregado");
+                    }else{
+                        Console.WriteLine("Producto ya existe");
+
+                    }
+                    
+                    
+                break;
+                
+                case "2":
+                    string codigo;
+                    
+                    Console.WriteLine("Ingrese codigo a eliminar");
+                    codigo = Console.ReadLine();
+                    dispensadora.eliminarProducto(codigo);
+                    
+                break;
+                case "3":
+                break;
+                case "4":
+                break;
+            }
+        }
+        
+        
+
+        
     }
 }
 //CLASE PRODUCTO
@@ -73,6 +133,8 @@ class CDispensadora{
     public string Pago{set; get;}
     
     public CDispensadora(){
+        
+        productos = new List<CProducto>();
         CProducto coca = new CProducto();
         coca.Codigo="01";
         coca.Nombre="coca Cola";
