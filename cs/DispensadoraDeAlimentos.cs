@@ -5,9 +5,6 @@ using System.Collections.Generic;
 class Program
 {
     static void Main() {
-        int x = 10;
-        int y = 25;
-        int z = x + y;
         
         string opcion;
         
@@ -55,14 +52,57 @@ class Program
                 case "2":
                     string codigo;
                     
+                    dispensadora.mostrarProductos();
                     Console.WriteLine("Ingrese codigo a eliminar");
                     codigo = Console.ReadLine();
-                    dispensadora.eliminarProducto(codigo);
+                    if(dispensadora.eliminarProducto(codigo)){
+                        Console.WriteLine("prodocto eliminado");
+                    }else{
+                        Console.WriteLine("producto no encontrado");
+                    }
                     
                 break;
                 case "3":
+                    codigo="";
+
+                    Console.WriteLine("Ingrese codigo a modificar");
+                    codigo = Console.ReadLine();
+
+                    if(dispensadora.modificarProducto(codigo)){
+                        Console.WriteLine("Producto modificado");
+                    }else{
+                        Console.WriteLine("Producto no encontrado");
+
+                    }
+                    
+                    
                 break;
                 case "4":
+                    string pago;
+                    codigo="";
+                    
+                    
+                    Console.WriteLine("Ingrese pago");
+                    pago=Console.ReadLine();
+                    
+                    do{
+                        if(dispensadora.vender(codigo)!=null){
+                            Console.WriteLine("Compra exitosa");
+                        }else{
+                            Console.WriteLine("codigo no encontrado");
+                        }
+                    }while(dispensadora.vender(codigo)==null);
+                    
+                    Console.WriteLine("Ingrese codigo");
+                    codigo=Console.ReadLine();
+                    
+                    dispensadora.Pago = pago;
+                    
+                    
+                    
+                    
+                    
+                
                 break;
             }
         }
@@ -72,6 +112,8 @@ class Program
         
     }
 }
+//FIN DE LA CLASE MAIN
+
 //CLASE PRODUCTO
 public class CProducto{
     
@@ -123,6 +165,10 @@ public class CProducto{
         Cantidad--;
     }
     
+    public override string ToString(){
+        return string.Format("Codigo: {0} Nombre: {1} Categoria: {2} Cantidad: {3}, Valor{4} \r\n",Codigo,Nombre,Categoria,Cantidad,Valor);
+    }
+    
 }
 //FIN DE LA CLASE PRODUCTO
 
@@ -134,7 +180,7 @@ class CDispensadora{
     
     public CDispensadora(){
         
-        productos = new List<CProducto>();
+        Productos = new List<CProducto>();
         CProducto coca = new CProducto();
         coca.Codigo="01";
         coca.Nombre="coca Cola";
@@ -265,6 +311,7 @@ class CDispensadora{
         }
         return total;
     }
+    
     //METODO PARA VENDER PRODUCTO
     public CProducto vender(string pCodigo){
         
@@ -286,6 +333,13 @@ class CDispensadora{
         }
         
         return null;
+    }
+    
+    public void mostrarProductos(){
+        
+        foreach(CProducto product in Productos){
+            Console.WriteLine(product);
+        }
     }
     
     
