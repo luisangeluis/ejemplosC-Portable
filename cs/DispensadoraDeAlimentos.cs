@@ -8,6 +8,8 @@ class Program
         
         string opcion;
         
+        string codigo;
+        
         CDispensadora dispensadora = new CDispensadora();
         
 
@@ -16,6 +18,12 @@ class Program
         Console.WriteLine("Dispensadora de alimentos");
         
         while(true){
+            dispensadora.mostrarProductos();
+            
+            Console.WriteLine("************");
+            Console.WriteLine("************");
+            Console.WriteLine("************");
+
             Console.WriteLine("Elige una opcion");
             Console.WriteLine("1. Agregar producto");
             Console.WriteLine("2. Eliminar producto");
@@ -27,7 +35,8 @@ class Program
                 case "1":
                     CProducto producto = new CProducto();
                     
-                    
+                    dispensadora.mostrarProductos();
+ 
                     Console.WriteLine("Ingresa codigo");
                     producto.Codigo = Console.ReadLine();
                     Console.WriteLine("Ingresa nombre");
@@ -45,16 +54,16 @@ class Program
                         Console.WriteLine("Producto ya existe");
 
                     }
-                    
-                    
                 break;
                 
                 case "2":
-                    string codigo;
-                    
+                    codigo="";
+
                     dispensadora.mostrarProductos();
+                    
                     Console.WriteLine("Ingrese codigo a eliminar");
                     codigo = Console.ReadLine();
+                    
                     if(dispensadora.eliminarProducto(codigo)){
                         Console.WriteLine("prodocto eliminado");
                     }else{
@@ -64,6 +73,8 @@ class Program
                 break;
                 case "3":
                     codigo="";
+                    
+                    dispensadora.mostrarProductos();
 
                     Console.WriteLine("Ingrese codigo a modificar");
                     codigo = Console.ReadLine();
@@ -77,32 +88,31 @@ class Program
                     
                     
                 break;
+                
                 case "4":
                     string pago;
                     codigo="";
-                    
+
+                    dispensadora.mostrarProductos();
                     
                     Console.WriteLine("Ingrese pago");
                     pago=Console.ReadLine();
-                    
-                    do{
+                    Console.WriteLine("Ingrese codigo");
+                    codigo=Console.ReadLine();
+                    dispensadora.Pago = pago;
+
+                  // do{
                         if(dispensadora.vender(codigo)!=null){
                             Console.WriteLine("Compra exitosa");
                         }else{
                             Console.WriteLine("codigo no encontrado");
                         }
-                    }while(dispensadora.vender(codigo)==null);
+                    //}while(dispensadora.vender(codigo)==null);
                     
-                    Console.WriteLine("Ingrese codigo");
-                    codigo=Console.ReadLine();
-                    
-                    dispensadora.Pago = pago;
+                    //Console.WriteLine("Ingrese codigo");
+                    //codigo=Console.ReadLine();
                     
                     
-                    
-                    
-                    
-                
                 break;
             }
         }
