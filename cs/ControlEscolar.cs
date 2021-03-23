@@ -1,20 +1,19 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+
 
 class Program
 {
     static void Main() {
-        /*
-        int x = 10;
-        int y = 25;
-        int z = x + y;
-
-        Console.Write("Sum of x + y = "+ z);
-        */
-        
+       
         CControl control = new CControl();
+        CMateria materia = new CMateria("matematicas","lunes",6);
         
         control.GetMaterias();
+        control.AddMateriaToList(materia);
+        control.GetMaterias();
+
     }
 }
 
@@ -35,6 +34,15 @@ class CMateria{
     private string dia;
     private int hora;
     
+    
+    public string Nombre{
+        get{
+            return nombre;
+        }
+    }
+    
+    private const int cupo =10;
+    
     public CMateria(string pNombre, string pDia, int pHora){
         nombre = pNombre;
         dia = pDia;
@@ -42,7 +50,7 @@ class CMateria{
     }
     
     public override string ToString(){
-        return string.Format("Nombre: {0}\r Dia: {1}\r Hora: {2}",nombre,dia,hora);
+        return string.Format("Nombre: {0}\r Dia: {1}\r Hora: {2}",Nombre,dia,hora);
     }
 
 }
@@ -95,22 +103,62 @@ class CMaestro: CPersona{
 //************
 class CControl{
     
-    ArrayList materias = new ArrayList();
+    List <CMateria>materias = new List<CMateria>();
     ArrayList alumnos = new ArrayList();
     ArrayList maestros = new ArrayList();
     
+    //Constructor de la clase CControl
     public CControl(){
         CMateria espanol = new CMateria("español","lunes",5);
         materias.Add(espanol);
         
+        CAlumno alumno0 = new CAlumno("luis","0000");
+        alumnos.Add(alumno0);
+        
+        CMaestro maestro0 = new CMaestro("pablo","0000");
+        maestros.Add(maestro0);
+        
+        
     }
-    
+    //Mostrar materias
     public void GetMaterias(){
        foreach(CMateria materia in materias){
             Console.WriteLine(materia.ToString());
         } 
     }
     
+    //Validar materia
+    
+    public int ValidarMateria(string pNombre){
+        
+        int posicion =-1;
+        
+        for(int i = 0; i<materias.Count; i++){
+            if(materias[i].Nombre==pNombre){
+                posicion=i;
+            }  
+        }
+        
+        return posicion;
+    }
+    
+    //Agregar materia
+    
+    public bool AddMateriaToList(CMateria pMateria){
+        
+        if(pMateria is CMateria && pMateria!=null){
+           materias.Add(pMateria);
+           return true;
+        }
+        
+        return false;
+        
+    }
+    /*
+    public bool RemoveMateriToList(){
+        
+    }
+    */
 
        
     
