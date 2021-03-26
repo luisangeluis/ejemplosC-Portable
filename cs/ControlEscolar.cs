@@ -8,11 +8,18 @@ class Program
     static void Main() {
        
         CControl control = new CControl();
-        CMateria materia = new CMateria("matematicas","lunes",6);
+        CMateria materia = new CMateria("español","lunes",6);
         
         control.GetMaterias();
-        control.AddMateriaToList(materia);
+        if(control.RemoveMateriToList("español")==true){
+            Console.WriteLine("materia borrada");
+        }
+        
+        Console.WriteLine("****");
+        Console.WriteLine("****");
         control.GetMaterias();
+
+        
 
     }
 }
@@ -27,7 +34,10 @@ class Program
 4-que los alumnos y maestros no puedan elegir mas de 8 materias
 */
 
+
 //CLASE MATERIAS
+//************
+//************
 class CMateria{
     
     private string nombre;
@@ -52,6 +62,19 @@ class CMateria{
     public override string ToString(){
         return string.Format("Nombre: {0}\r Dia: {1}\r Hora: {2}",Nombre,dia,hora);
     }
+
+}
+//CLASE PARA GUARDAR LAS MATERIAS
+//************
+//************
+class CMaterias{
+    
+    List <CMateria>materias = new List<CMateria>();
+    
+    public CMaterias(){
+        CMateria espanol = new CMateria("español","lunes",5);
+    }
+     
 
 }
 
@@ -103,15 +126,18 @@ class CMaestro: CPersona{
 //************
 class CControl{
     
-    List <CMateria>materias = new List<CMateria>();
+    //List <CMateria>materias = new List<CMateria>();
+    CMaterias materias = new CMaterias();
+    
     ArrayList alumnos = new ArrayList();
     ArrayList maestros = new ArrayList();
     
     //Constructor de la clase CControl
     public CControl(){
+        /*
         CMateria espanol = new CMateria("español","lunes",5);
         materias.Add(espanol);
-        
+        */
         CAlumno alumno0 = new CAlumno("luis","0000");
         alumnos.Add(alumno0);
         
@@ -143,22 +169,34 @@ class CControl{
     }
     
     //Agregar materia
-    
     public bool AddMateriaToList(CMateria pMateria){
         
         if(pMateria is CMateria && pMateria!=null){
-           materias.Add(pMateria);
-           return true;
+           
+           if(ValidarMateria(pMateria.Nombre)>=0){
+             return false;
+           }else{
+               materias.Add(pMateria);
+           }
+           
+        }
+        
+        return true;
+    }
+    
+    //Remover materia
+    public bool RemoveMateriToList(string pNombre){
+        
+        int materiaEncontrada = ValidarMateria(pNombre);
+        
+        if(materiaEncontrada>=0){
+            materias.RemoveAt(materiaEncontrada);
+            return true;
         }
         
         return false;
-        
     }
-    /*
-    public bool RemoveMateriToList(){
-        
-    }
-    */
+    
 
        
     
