@@ -8,17 +8,11 @@ class Program
     static void Main() {
        
         CControl control = new CControl();
-        CMateria materia = new CMateria("español","lunes",6);
         
-        control.GetMaterias();
-        if(control.RemoveMateriToList("español")==true){
-            Console.WriteLine("materia borrada");
-        }
+        control.Controlar();
         
-        Console.WriteLine("****");
-        Console.WriteLine("****");
-        control.GetMaterias();
-
+        
+        
         
 
     }
@@ -73,6 +67,57 @@ class CMaterias{
     
     public CMaterias(){
         CMateria espanol = new CMateria("español","lunes",5);
+        
+        materias.Add(espanol);
+    }
+    
+    //Agregar materia
+    public bool AddMateriaToList(CMateria pMateria){
+        
+        if(pMateria is CMateria && pMateria!=null){
+           
+           
+           
+           if(ValidarMateria(pMateria.Nombre)>=0){
+             return false;
+           }else{
+               materias.Add(pMateria);
+           }
+           
+        }
+        
+        return true;
+    } 
+    //Validar materia
+    public int ValidarMateria(string pNombre){
+        
+        int posicion =-1;
+        
+        for(int i = 0; i<materias.Count; i++){
+            if(materias[i].Nombre==pNombre){
+                posicion=i;
+            }  
+        }
+        
+        return posicion;
+    }
+    //Mostrar materias
+    public void GetMaterias(){
+       foreach(CMateria materia in materias){
+            Console.WriteLine(materia.ToString());
+        } 
+    }
+    //Remover materia
+     public bool RemoveMateriToList(string pNombre){
+        
+        int materiaEncontrada = ValidarMateria(pNombre);
+        
+        if(materiaEncontrada>=0){
+            materias.RemoveAt(materiaEncontrada);
+            return true;
+        }
+        
+        return false;
     }
      
 
@@ -126,78 +171,50 @@ class CMaestro: CPersona{
 //************
 class CControl{
     
-    //List <CMateria>materias = new List<CMateria>();
     CMaterias materias = new CMaterias();
     
-    ArrayList alumnos = new ArrayList();
-    ArrayList maestros = new ArrayList();
     
-    //Constructor de la clase CControl
+   
     public CControl(){
-        /*
-        CMateria espanol = new CMateria("español","lunes",5);
-        materias.Add(espanol);
-        */
-        CAlumno alumno0 = new CAlumno("luis","0000");
-        alumnos.Add(alumno0);
-        
-        CMaestro maestro0 = new CMaestro("pablo","0000");
-        maestros.Add(maestro0);
-        
-        
-    }
-    //Mostrar materias
-    public void GetMaterias(){
-       foreach(CMateria materia in materias){
-            Console.WriteLine(materia.ToString());
-        } 
-    }
-    
-    //Validar materia
-    
-    public int ValidarMateria(string pNombre){
-        
-        int posicion =-1;
-        
-        for(int i = 0; i<materias.Count; i++){
-            if(materias[i].Nombre==pNombre){
-                posicion=i;
-            }  
-        }
-        
-        return posicion;
-    }
-    
-    //Agregar materia
-    public bool AddMateriaToList(CMateria pMateria){
-        
-        if(pMateria is CMateria && pMateria!=null){
-           
-           if(ValidarMateria(pMateria.Nombre)>=0){
-             return false;
-           }else{
-               materias.Add(pMateria);
-           }
-           
-        }
-        
-        return true;
-    }
-    
-    //Remover materia
-    public bool RemoveMateriToList(string pNombre){
-        
-        int materiaEncontrada = ValidarMateria(pNombre);
-        
-        if(materiaEncontrada>=0){
-            materias.RemoveAt(materiaEncontrada);
-            return true;
-        }
-        
-        return false;
-    }
-    
-
        
+        
+    }
+    
+    public void Controlar(){
+        
+        int opcion=0;
+        string nombre;
+        string dia;
+        int hora;
+        
+            Console.WriteLine("Agregar materia");
+            Console.WriteLine("1.-Uno para agregar materia");
+            
+            opcion=Convert.ToInt32(Console.ReadLine());
+            
+
+            if(opcion ==1){
+                Console.WriteLine("Ingresa nombre");
+                nombre = Console.ReadLine();
+            
+                Console.WriteLine("Ingresa dia");
+                dia = Console.ReadLine();
+            
+                Console.WriteLine("Ingresa hora");
+                hora = Convert.ToInt32(Console.ReadLine());
+                
+                CMateria nuevaMateria = new CMateria(nombre,dia,hora);
+                
+                if(materias.AddMateriaToList(nuevaMateria))
+                Console.WriteLine("materia agregada");
+                else
+                Console.WriteLine("materia no agregada");
+
+                
+            }
+            
+            materias.GetMaterias();
+            
+    }
     
 }
