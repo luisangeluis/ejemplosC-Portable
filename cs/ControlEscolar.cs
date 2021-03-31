@@ -63,7 +63,7 @@ class CMateria{
 //************
 class CMaterias{
     
-    List <CMateria>materias = new List<CMateria>();
+    List <CMateria>materias = null;
     
     public CMaterias(){
         CMateria espanol = new CMateria("español","lunes",5);
@@ -130,6 +130,8 @@ class CPersona{
     private string nombre;
     private string codigo;
     
+    CMaterias materias = new CMaterias(); 
+    
     public string Nombre{set{nombre = value;}get{return nombre;}}
     public string Codigo{set{codigo=value;}get{return codigo;}}
     
@@ -171,8 +173,11 @@ class CMaestro: CPersona{
 //************
 class CControl{
     
-    CMaterias materias = new CMaterias();
+    //CMaterias materias = new CMaterias();
     
+    List<CAlumno>Alumnos= new List<CAlumno>();
+    List<CMaestro>Maestros= new List<CMaestro>();
+
     
    
     public CControl(){
@@ -180,7 +185,21 @@ class CControl{
         
     }
     
+    public void AgregarPersona(CPersona pPersona){
+        if(pPersona!=null){
+            if(pPersona is CAlumno){
+                Alumnos.Add((CAlumno)pPersona);
+            }
+            
+            if(pPersona is CMaestro){
+                Maestros.Add((CMaestro)pPersona);
+            }
+        }
+    }
+    
     public void Controlar(){
+        
+       /* 
         
         int opcion=0;
         string nombre;
@@ -215,6 +234,7 @@ class CControl{
             
             materias.GetMaterias();
             
+            */
     }
     
 }
