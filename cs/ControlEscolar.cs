@@ -178,63 +178,110 @@ class CControl{
     List<CAlumno>Alumnos= new List<CAlumno>();
     List<CMaestro>Maestros= new List<CMaestro>();
 
-    
-   
     public CControl(){
        
         
     }
     
-    public void AgregarPersona(CPersona pPersona){
-        if(pPersona!=null){
-            if(pPersona is CAlumno){
-                Alumnos.Add((CAlumno)pPersona);
+    public int validarAlumno(string pCodigo){
+        int posicion=-1;
+       
+        for(int i =0; i<Alumnos.Count; i++){
+            if(Alumnos[i].Codigo == pCodigo){
+                posicion = i;
             }
-            
+        }  
+        
+        return posicion;
+    }
+    
+    public int validarMaestro(string pCodigo){
+        int posicion=-1;
+       
+        for(int i =0; i<Maestros.Count; i++){
+            if(Maestros[i].Codigo == pCodigo){
+                posicion = i;
+            }
+        }  
+        
+        return posicion;
+    }
+    
+    public bool AgregarPersona(CPersona pPersona){
+        
+        int encontrado =-1;
+        
+        if(pPersona!=null){
+            //Si es alumno
+            if(pPersona is CAlumno){
+                
+                encontrado=validarAlumno(pPersona.Codigo);
+                
+                if(encontrado>=0){
+                   return false; 
+                }else{
+                    Alumnos.Add((CAlumno)pPersona);
+
+                }
+                return true;
+            }
+            //Si es Maestro
             if(pPersona is CMaestro){
-                Maestros.Add((CMaestro)pPersona);
+                
+                encontrado=validarMaestro(pPersona.Codigo);
+                if(encontrado >=0){
+                    return false; 
+
+                }else{
+                    Maestros.Add((CMaestro)pPersona);
+                }
+                return true;
             }
         }
+        return false;
+        
+    }
+    
+    
+    public bool EliminarPersona(string pCodigo){
+        int encontro=-1;
+        int opcion=0;
+        
+        Console.WriteLine("¿Es alumno o maestro?");
+        Console.WriteLine("1.- Uno para alumno");
+        Console.WriteLine("2.- Dos para Maestro");
+        
+        opcion = Convert.ToInt32(Console.ReadLine());
+        
+        if(opcion == 1){
+           encontro=validarAlumno(pCodigo); 
+           
+           if(encontro>=0){
+                Alumnos.RemoveAt(encontro);
+                return true;
+           }else{
+               return false;
+           }
+           
+        } 
+        if(opcion ==2){
+            encontro=validarMaestro(pCodigo); 
+            
+            if(encontro>=0){
+                Maestros.RemoveAt(encontro);
+                return true;
+           }else{
+               return false;
+           }
+ 
+        }
+        return false;
+        
     }
     
     public void Controlar(){
         
-       /* 
-        
-        int opcion=0;
-        string nombre;
-        string dia;
-        int hora;
-        
-            Console.WriteLine("Agregar materia");
-            Console.WriteLine("1.-Uno para agregar materia");
-            
-            opcion=Convert.ToInt32(Console.ReadLine());
-            
-
-            if(opcion ==1){
-                Console.WriteLine("Ingresa nombre");
-                nombre = Console.ReadLine();
-            
-                Console.WriteLine("Ingresa dia");
-                dia = Console.ReadLine();
-            
-                Console.WriteLine("Ingresa hora");
-                hora = Convert.ToInt32(Console.ReadLine());
-                
-                CMateria nuevaMateria = new CMateria(nombre,dia,hora);
-                
-                if(materias.AddMateriaToList(nuevaMateria))
-                Console.WriteLine("materia agregada");
-                else
-                Console.WriteLine("materia no agregada");
-
-                
-            }
-            
-            materias.GetMaterias();
-            
-            */
+       
     }
     
 }
