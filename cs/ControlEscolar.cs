@@ -7,13 +7,57 @@ class Program
 {
     static void Main() {
        
+        string opcion="";
+        int valor =0;
         CControl control = new CControl();
         
-        control.Controlar();
+        Console.WriteLine("Control escolar");
+        Console.WriteLine("1.-Ingrese uno para alumnos");
+        Console.WriteLine("2.-Ingrese dos para maestros");
+        
+        try{
+            opcion =Console.ReadLine();
+            valor = Convert.ToInt32(opcion);
+        }catch(Exception e){
+            
+        }
+        
+        
+        switch(valor){
+            case 1:
+                int opcionAlumnos =0;
+                
+                control.getArregloAlumnos();
+                
+                opcionesAlumno();
+                opcionAlumnos=Convert.ToInt32(Console.ReadLine());
+
+            break;
+            
+            case 2:
+                //Console.WriteLine("switch de maestros");
+
+            break;
+            default:
+                Console.WriteLine("Opcion no valida");
+
+            break;
+        }
+
         
         
         
         
+        
+
+    }
+    
+    public static void opcionesAlumno(){
+        Console.WriteLine("Elige una opcion");
+
+        Console.WriteLine("1.-Uno para agregar materia");
+        Console.WriteLine("2.-Dos para eliminar materia");
+        Console.WriteLine();
 
     }
 }
@@ -63,9 +107,11 @@ class CMateria{
 //************
 class CMaterias{
     
-    List <CMateria>materias = null;
+    List <CMateria>materias;
     
     public CMaterias(){
+        
+        materias = new List<CMateria>();
         CMateria espanol = new CMateria("español","lunes",5);
         
         materias.Add(espanol);
@@ -141,7 +187,7 @@ class CPersona{
     }
     
     public override string ToString(){
-        return string.Format("Nombre: {0}\r\n Codigo: {1}",nombre,codigo);
+        return string.Format("NOMBRE: {0} CODIGO: {1}\r\n",nombre,codigo);
     }
 }
 
@@ -179,6 +225,9 @@ class CControl{
     List<CMaestro>Maestros= new List<CMaestro>();
 
     public CControl(){
+       
+        CAlumno alumno = new CAlumno("luis","0000");
+       Alumnos.Add(alumno);
        
         
     }
@@ -278,10 +327,27 @@ class CControl{
         return false;
         
     }
-    
-    public void Controlar(){
+    //Mostrar todos los alumnos
+    public void getArregloAlumnos(){
         
-       
+        Console.WriteLine("***ALUMNOS***");
+        /*
+        foreach(CAlumno alum in Alumnos){
+            Console.WriteLine(alum);
+
+        }
+        */
+        for(int i=0; i<Alumnos.Count;i++){
+            Console.WriteLine("{0} {1}",i+1,Alumnos[i]);
+        
+            
+        }
+    }
+    //Mostrar todos los maestros
+    public void getArrayMaestros(){
+        foreach(CMaestro m in Maestros){
+            Console.Write(m);
+        }
     }
     
 }
