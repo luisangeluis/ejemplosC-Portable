@@ -9,40 +9,76 @@ class Program
        
         string opcion="";
         int valor =0;
+        
         CControl control = new CControl();
         
-        Console.WriteLine("Control escolar");
-        Console.WriteLine("1.-Ingrese uno para alumnos");
-        Console.WriteLine("2.-Ingrese dos para maestros");
         
-        try{
-            opcion =Console.ReadLine();
-            valor = Convert.ToInt32(opcion);
-        }catch(Exception e){
+        while(valor!=3){
             
-        }
-        
-        
-        switch(valor){
-            case 1:
-                int opcionAlumnos =0;
-                
-                control.getArregloAlumnos();
-                
-                opcionesAlumno();
-                opcionAlumnos=Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Control escolar");
+            Console.WriteLine("1.-Ingrese uno para alumnos");
+            Console.WriteLine("2.-Ingrese dos para maestros");
+            Console.WriteLine("3.-Ingrese tres para salir");
 
-            break;
+        
+            try{
+                opcion =Console.ReadLine();
+                valor = Convert.ToInt32(opcion);
+            }catch(Exception e){
             
-            case 2:
+            }
+        
+             CPersona persona;
+            switch(valor){
+                case 1:
+                    int opcioneAlumno=0;
+                    string codigo="";
+                    string nombre ="";
+                    
+                    
+                    control.getArregloAlumnos();
+                    
+                    opcionesAlumno();
+                    opcioneAlumno = Convert.ToInt32(Console.ReadLine());
+                    
+                    if(opcioneAlumno==1){
+                        
+                        
+                        Console.WriteLine("Ingresa nombre del nuevo alumno");
+                        nombre = Console.ReadLine();
+                        Console.WriteLine("Ingresa codigo del nuevo alumno");
+                        codigo = Console.ReadLine();
+                        
+                        persona = new CAlumno(nombre,codigo);
+                        control.AgregarPersona(persona);
+                        
+                        
+                    }
+                    
+
+                break;
+            
+                case 2:
                 //Console.WriteLine("switch de maestros");
 
-            break;
-            default:
-                Console.WriteLine("Opcion no valida");
-
-            break;
+                break;
+                
+                case 3:
+                    Console.WriteLine("adios");
+                break;
+                
+                default:
+                    Console.WriteLine("Opcion no valida");
+                break;
+                
+            }  
+            /*
+            if(valor==3)
+                break;
+                
+            */
         }
+        
 
         
         
@@ -55,11 +91,15 @@ class Program
     public static void opcionesAlumno(){
         Console.WriteLine("Elige una opcion");
 
-        Console.WriteLine("1.-Uno para agregar materia");
-        Console.WriteLine("2.-Dos para eliminar materia");
-        Console.WriteLine();
+        Console.WriteLine("1.-Uno para agregar alumnos");
+        Console.WriteLine("2.-Dos para eliminar alumno");
+        Console.WriteLine("3.-Modificar alumno");
 
     }
+    
+    
+    
+    
 }
 
 //CONTROL ESCOLAR
