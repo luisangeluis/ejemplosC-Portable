@@ -9,6 +9,7 @@ class Program
        
         string opcion="";
         int valor =0;
+        bool alumno;
         
         CControl control = new CControl();
         
@@ -34,15 +35,15 @@ class Program
                     int opcioneAlumno=0;
                     string codigo="";
                     string nombre ="";
+                    alumno = true;
                     
                     
                     control.getArregloAlumnos();
                     
-                    opcionesAlumno();
+                    opcionesArrayAlumno();
                     opcioneAlumno = Convert.ToInt32(Console.ReadLine());
-                    
+                    //Opcion para agregar alumno
                     if(opcioneAlumno==1){
-                        
                         
                         Console.WriteLine("Ingresa nombre del nuevo alumno");
                         nombre = Console.ReadLine();
@@ -52,7 +53,19 @@ class Program
                         persona = new CAlumno(nombre,codigo);
                         control.AgregarPersona(persona);
                         
-                        
+                    }
+                    //Opcion para eliminar alumno
+                    if(opcioneAlumno==2){
+                        Console.WriteLine("Ingrese el codigo del alumno a eliminar");
+                        codigo = Console.ReadLine();
+                        control.EliminarPersona(codigo,alumno);
+                    }
+                    //Opcion para modificar alumno
+                    if(opcioneAlumno==3){
+                        Console.WriteLine("Ingrese el codigo del alumno a modificar");
+                        codigo = Console.ReadLine();
+                        control.modificarPersona(codigo,alumno);
+
                     }
                     
 
@@ -88,7 +101,7 @@ class Program
 
     }
     
-    public static void opcionesAlumno(){
+    public static void opcionesArrayAlumno(){
         Console.WriteLine("Elige una opcion");
 
         Console.WriteLine("1.-Uno para agregar alumnos");
@@ -271,7 +284,7 @@ class CControl{
        
         
     }
-    
+    //Metodo para validar alumno
     public int validarAlumno(string pCodigo){
         int posicion=-1;
        
@@ -283,7 +296,8 @@ class CControl{
         
         return posicion;
     }
-    
+    //Metodo para validar maestro
+
     public int validarMaestro(string pCodigo){
         int posicion=-1;
        
@@ -295,7 +309,30 @@ class CControl{
         
         return posicion;
     }
-    
+    //Metodo para validar persona
+    /* Meter la variable en la clase y nomas decirle desde afuera si es o o no es alumno
+    public int validarPersona(string pCodigo, bool pAlumno){
+        int posicion =-1;
+        
+        if(pAlumno){
+            for(int i =0; i<Alumnos.Count; i++){
+                if(Alumnos[i].Codigo == pCodigo){
+                    posicion = i;
+                }
+            }
+        }
+        if(!pAlumno){
+            for(int i =0; i<Maestros.Count; i++){
+                if(Maestros[i].Codigo == pCodigo){
+                    posicion = i;
+                }
+            }
+        }
+        
+        return posicion;
+    }
+    */
+    //Metod para agregar alumno o maestro
     public bool AgregarPersona(CPersona pPersona){
         
         int encontrado =-1;
@@ -331,18 +368,11 @@ class CControl{
         
     }
     
-    
-    public bool EliminarPersona(string pCodigo){
+    //Metodo para eliminar persona    
+    public bool EliminarPersona(string pCodigo, bool pAlumno){
         int encontro=-1;
-        int opcion=0;
-        
-        Console.WriteLine("¿Es alumno o maestro?");
-        Console.WriteLine("1.- Uno para alumno");
-        Console.WriteLine("2.- Dos para Maestro");
-        
-        opcion = Convert.ToInt32(Console.ReadLine());
-        
-        if(opcion == 1){
+
+        if(pAlumno){
            encontro=validarAlumno(pCodigo); 
            
            if(encontro>=0){
@@ -353,7 +383,7 @@ class CControl{
            }
            
         } 
-        if(opcion ==2){
+        if(!pAlumno){
             encontro=validarMaestro(pCodigo); 
             
             if(encontro>=0){
@@ -364,6 +394,43 @@ class CControl{
            }
  
         }
+        return false;
+        
+    }
+    //Metodo para modificar alumno
+    public bool modificarPersona(string pCodigo, bool pAlumno){
+        int encontro = -1;
+        string nombre="";
+        string codigo="";
+       
+           if(pAlumno){
+                encontro = validarAlumno(pCodigo);
+                
+                if(encontro>=0){
+                    Console.WriteLine("Alumno a modificar: {0} ",Alumnos[encontro]);
+
+                    Console.WriteLine("Ingrese el nuevo nombre");
+                    nombre = Console.ReadLine();
+                    Console.WriteLine("Ingrese el nuevo codigo");
+                    codigo = Console.ReadLine();
+            
+                    if(nombre != "" && codigo!=""){
+                        Alumnos[encontro].Nombre = nombre;
+                        Alumnos[encontro].Codigo = codigo;
+                        
+                        return true;
+                    } 
+                }
+                
+            }
+            
+            if(!pAlumno){
+                encontro = validarMaestro(pCodigo);
+                return true;
+            
+            } 
+    
+        
         return false;
         
     }
