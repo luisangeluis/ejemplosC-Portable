@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-
+//Inicio de main
 class Program
 {
     static void Main() {
@@ -70,10 +70,44 @@ class Program
                     
 
                 break;
-            
-                case 2:
-                //Console.WriteLine("switch de maestros");
+                //Console.WriteLine("case de maestros");
 
+                case 2:
+                    int opcionesMaestro=0;
+                    string nombreMaestro="";
+                    codigo = "";
+                    alumno = false;
+                    
+                    control.getArrayMaestros();
+                    opcionesArrayMaestro();
+                    opcionesMaestro = Convert.ToInt32(Console.ReadLine());
+                    
+                    if(opcionesMaestro==1){
+
+                        Console.WriteLine("Ingrese nombre del maestro");
+                        nombreMaestro = Console.ReadLine();
+                        Console.WriteLine("Ingrese codigo del maestro");
+                        codigo = Console.ReadLine();
+                        
+                        persona = new CMaestro(nombreMaestro,codigo);
+                        
+                        control.AgregarPersona(persona);
+
+                    }
+                    if(opcionesMaestro==2){
+                        Console.WriteLine("Ingrese codigo del maestro a eliminar");
+                        codigo = Console.ReadLine();
+                        
+                        control.EliminarPersona(codigo,alumno);
+                    }
+                    
+                    if(opcionesMaestro==3){
+                        Console.WriteLine("Ingrese codigo del maestro a modificar");
+                        codigo = Console.ReadLine();
+                        
+                        control.modificarPersona(codigo,alumno);
+                    }
+                
                 break;
                 
                 case 3:
@@ -110,11 +144,20 @@ class Program
 
     }
     
+    public static void opcionesArrayMaestro(){
+        Console.WriteLine("Elige una opcion");
+
+        Console.WriteLine("1.-Uno para agregar maestro");
+        Console.WriteLine("2.-Dos para eliminar maestro");
+        Console.WriteLine("3.-Modificar maestro");
+
+    }
+    
     
     
     
 }
-
+//Fin de main
 //CONTROL ESCOLAR
 
 /*
@@ -280,7 +323,10 @@ class CControl{
     public CControl(){
        
         CAlumno alumno = new CAlumno("luis","0000");
-       Alumnos.Add(alumno);
+        Alumnos.Add(alumno);
+        
+        CMaestro maestro = new CMaestro("pepe","0000");
+        Maestros.Add(maestro);
        
         
     }
@@ -426,14 +472,26 @@ class CControl{
             
             if(!pAlumno){
                 encontro = validarMaestro(pCodigo);
-                return true;
+                
+                Console.WriteLine("Maestro a modificar: {0} ",Maestros[encontro]);
+
+                    Console.WriteLine("Ingrese el nuevo nombre");
+                    nombre = Console.ReadLine();
+                    Console.WriteLine("Ingrese el nuevo codigo");
+                    codigo = Console.ReadLine();
             
-            } 
+                    if(nombre != "" && codigo!=""){
+                        Maestros[encontro].Nombre = nombre;
+                        Maestros[encontro].Codigo = codigo;
+                        
+                        return true;
+                    } 
+            }
+              
+        return false;    
+    } 
     
-        
-        return false;
-        
-    }
+
     //Mostrar todos los alumnos
     public void getArregloAlumnos(){
         
@@ -452,6 +510,8 @@ class CControl{
     }
     //Mostrar todos los maestros
     public void getArrayMaestros(){
+        Console.WriteLine("***Maestros***");
+
         foreach(CMaestro m in Maestros){
             Console.Write(m);
         }
