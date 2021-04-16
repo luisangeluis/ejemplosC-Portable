@@ -16,7 +16,9 @@ class Program
         
         while(valor!=3){
             
-            Console.WriteLine("Control escolar");
+            valor=0;
+
+            Console.WriteLine("***CONTROL ESCOLAR***");
             Console.WriteLine("1.-Ingrese uno para alumnos");
             Console.WriteLine("2.-Ingrese dos para maestros");
             Console.WriteLine("3.-Ingrese tres para salir");
@@ -26,7 +28,6 @@ class Program
                 opcion =Console.ReadLine();
                 valor = Convert.ToInt32(opcion);
             }catch(Exception e){
-            
             }
         
              CPersona persona;
@@ -41,7 +42,12 @@ class Program
                     control.getArregloAlumnos();
                     
                     opcionesArrayAlumno();
-                    opcioneAlumno = Convert.ToInt32(Console.ReadLine());
+                    try{
+                        opcioneAlumno = Convert.ToInt32(Console.ReadLine());
+
+                    }catch(Exception e){
+                        //Console.WriteLine("OPCION NO VALIDA {0}",e);
+                    }
                     //Opcion para agregar alumno
                     if(opcioneAlumno==1){
                         
@@ -67,8 +73,6 @@ class Program
                         control.modificarPersona(codigo,alumno);
 
                     }
-                    
-
                 break;
                 //Console.WriteLine("case de maestros");
 
@@ -80,7 +84,13 @@ class Program
                     
                     control.getArrayMaestros();
                     opcionesArrayMaestro();
-                    opcionesMaestro = Convert.ToInt32(Console.ReadLine());
+                    
+                    try{
+                        opcionesMaestro = Convert.ToInt32(Console.ReadLine());
+
+                    }catch(Exception e){
+
+                    }
                     
                     if(opcionesMaestro==1){
 
@@ -107,15 +117,23 @@ class Program
                         
                         control.modificarPersona(codigo,alumno);
                     }
-                
+                    
+
                 break;
                 
                 case 3:
+                    valor=3;
                     Console.WriteLine("adios");
                 break;
                 
                 default:
                     Console.WriteLine("Opcion no valida");
+                    //valor=3;
+                    /*
+                    if(valor==4)
+                    */
+                    
+                    
                 break;
                 
             }  
@@ -136,20 +154,25 @@ class Program
     }
     
     public static void opcionesArrayAlumno(){
+        Console.WriteLine("***OPCIONES PARA ALUMNOS***");
         Console.WriteLine("Elige una opcion");
-
         Console.WriteLine("1.-Uno para agregar alumnos");
         Console.WriteLine("2.-Dos para eliminar alumno");
         Console.WriteLine("3.-Modificar alumno");
+        Console.WriteLine("4.-Cuatro para regresar");
+
 
     }
     
     public static void opcionesArrayMaestro(){
+        Console.WriteLine("***OPCIONES PARA MAESTROS***");
+
         Console.WriteLine("Elige una opcion");
 
         Console.WriteLine("1.-Uno para agregar maestro");
         Console.WriteLine("2.-Dos para eliminar maestro");
         Console.WriteLine("3.-Modificar maestro");
+        Console.WriteLine("4.-Cuatro para regresar");
 
     }
     
@@ -473,7 +496,8 @@ class CControl{
             if(!pAlumno){
                 encontro = validarMaestro(pCodigo);
                 
-                Console.WriteLine("Maestro a modificar: {0} ",Maestros[encontro]);
+                if(encontro>=0){
+                    Console.WriteLine("Maestro a modificar: {0} ",Maestros[encontro]);
 
                     Console.WriteLine("Ingrese el nuevo nombre");
                     nombre = Console.ReadLine();
@@ -486,6 +510,9 @@ class CControl{
                         
                         return true;
                     } 
+                }
+                
+                
             }
               
         return false;    
