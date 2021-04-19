@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+/*PAGINA .NET JFIDDLE*/
 //Inicio de main
-class Program
+public class Program
 {
-    static void Main() {
+    public static void Main() {
        
         string opcion="";
         int valor =0;
@@ -68,9 +68,23 @@ class Program
                     }
                     //Opcion para modificar alumno
                     if(opcioneAlumno==3){
+                        int opcAModificar=0;
+						
                         Console.WriteLine("Ingrese el codigo del alumno a modificar");
                         codigo = Console.ReadLine();
-                        control.modificarPersona(codigo,alumno);
+						
+                        opcionAModificar();
+                        opcAModificar = Convert.ToInt32(Console.ReadLine());
+						
+                        switch(opcAModificar){
+                            case 1:
+                               control.modificarPersona(codigo,alumno); 
+                            break;
+                            case 2:
+                                
+                            break;
+                        }
+                        //control.modificarPersona(codigo,alumno);
 
                     }
                 break;
@@ -176,7 +190,18 @@ class Program
 
     }
     
-    
+    public static void opcionAModificar(){
+        Console.WriteLine("1.-Uno para modificar datos");
+        Console.WriteLine("2.-Dos para modificar materias");
+    } 
+	
+	/*Ocpciones para materias*/
+	
+	public static void opcionesArrayMaterias(){
+		Console.WriteLine("1.- Uno para agregar Materia");
+		Console.WriteLine("2.- Dos eliminar Materia");
+
+	}
     
     
 }
