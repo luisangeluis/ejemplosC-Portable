@@ -31,6 +31,7 @@ public class Program
             }
         
              CPersona persona;
+			//Menu principal
             switch(valor){
                 case 1:
                     int opcioneAlumno=0;
@@ -81,7 +82,7 @@ public class Program
                                control.modificarPersona(codigo,alumno); 
                             break;
                             case 2:
-                                
+                                control.modificarMateria(codigo,alumno);
                             break;
                         }
                         //control.modificarPersona(codigo,alumno);
@@ -264,9 +265,8 @@ class CMaterias{
     //Agregar materia
     public bool AddMateriaToList(CMateria pMateria){
         
+		GetMaterias();
         if(pMateria is CMateria && pMateria!=null){
-           
-           
            
            if(ValidarMateria(pMateria.Nombre)>=0){
              return false;
@@ -320,7 +320,7 @@ class CPersona{
     private string nombre;
     private string codigo;
     
-    CMaterias materias = new CMaterias(); 
+    public CMaterias materias = new CMaterias(); 
     
     public string Nombre{set{nombre = value;}get{return nombre;}}
     public string Codigo{set{codigo=value;}get{return codigo;}}
@@ -403,29 +403,7 @@ class CControl{
         
         return posicion;
     }
-    //Metodo para validar persona
-    /* Meter la variable en la clase y nomas decirle desde afuera si es o o no es alumno
-    public int validarPersona(string pCodigo, bool pAlumno){
-        int posicion =-1;
-        
-        if(pAlumno){
-            for(int i =0; i<Alumnos.Count; i++){
-                if(Alumnos[i].Codigo == pCodigo){
-                    posicion = i;
-                }
-            }
-        }
-        if(!pAlumno){
-            for(int i =0; i<Maestros.Count; i++){
-                if(Maestros[i].Codigo == pCodigo){
-                    posicion = i;
-                }
-            }
-        }
-        
-        return posicion;
-    }
-    */
+    
     //Metod para agregar alumno o maestro
     public bool AgregarPersona(CPersona pPersona){
         
@@ -560,6 +538,39 @@ class CControl{
             
         }
     }
+	
+	//Modificar materia
+	public bool modificarMateria(string pCodigo, bool pAlumno){
+		int encontro = -1;
+		
+		if(pAlumno){
+			encontro = validarAlumno(pCodigo);
+			if(encontro>=0){
+				string nombre="";
+				string dia="";
+				int hora=0;
+				
+				Alumnos[encontro].materias.GetMaterias();
+
+				Console.WriteLine("Ingresa nombre de la materia");
+				nombre = Console.ReadLine();
+				Console.WriteLine("Ingresa dia de la materia");
+				dia = Console.ReadLine();
+				Console.WriteLine("Ingresa hora de la materia");
+				hora = Convert.ToInt32(Console.ReadLine());
+				
+				CMateria materia = new CMateria(nombre,dia,hora);	
+				Alumnos[encontro].materias.AddMateriaToList(materia);
+			}
+			
+		}
+		if(!pAlumno){
+		
+		}
+		
+		return true;
+	}
+	
     //Mostrar todos los maestros
     public void getArrayMaestros(){
         Console.WriteLine("***Maestros***");
