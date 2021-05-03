@@ -250,8 +250,42 @@ class CMateria{
 //CLASE PARA GUARDAR LAS MATERIAS
 //************
 //************
+
 class CMaterias{
-    
+	
+	private List<CMateria> materiasAlumno = new List<CMateria>();
+	private CMateria[] materias; 
+	
+	
+
+
+	public CMaterias(){
+		CMateria español = new CMateria("español","lunes",5);
+		CMateria matematicas = new CMateria("matematicas","lunes",6);
+		CMateria historia = new CMateria("historia","lunes",7);
+		CMateria ingles = new CMateria("ingles","lunes",8);
+		CMateria fisica = new CMateria("fisica","lunes",9);
+		
+		español = new CMateria("español","lunes",5);
+		materiasAlumno.Add(español);
+		
+		materias = new CMateria[5]{español,matematicas,historia,ingles,fisica};
+	}
+	
+	public void GetMaterias(){
+		
+		for(int x =0; x<materias.Length;x++){
+			Console.WriteLine("{0} {1}",x+1,materias[x].ToString());
+		}
+		
+	}
+	
+	public bool AgregarMateria(){
+		GetMaterias();
+		
+		return true;
+	}
+ /*   
     List <CMateria>materias;
     
     public CMaterias(){
@@ -310,7 +344,7 @@ class CMaterias{
         return false;
     }
      
-
+*/
 }
 
 //CLASE PERSONA
@@ -319,6 +353,7 @@ class CMaterias{
 class CPersona{
     private string nombre;
     private string codigo;
+	
     
     public CMaterias materias = new CMaterias(); 
     
@@ -529,7 +564,6 @@ class CControl{
         /*
         foreach(CAlumno alum in Alumnos){
             Console.WriteLine(alum);
-
         }
         */
         for(int i=0; i<Alumnos.Count;i++){
@@ -542,25 +576,27 @@ class CControl{
 	//Modificar materia
 	public bool modificarMateria(string pCodigo, bool pAlumno){
 		int encontro = -1;
-		
+		int opcion=0;
 		if(pAlumno){
 			encontro = validarAlumno(pCodigo);
 			if(encontro>=0){
-				string nombre="";
-				string dia="";
-				int hora=0;
 				
 				Alumnos[encontro].materias.GetMaterias();
-
-				Console.WriteLine("Ingresa nombre de la materia");
-				nombre = Console.ReadLine();
-				Console.WriteLine("Ingresa dia de la materia");
-				dia = Console.ReadLine();
-				Console.WriteLine("Ingresa hora de la materia");
-				hora = Convert.ToInt32(Console.ReadLine());
 				
-				CMateria materia = new CMateria(nombre,dia,hora);	
-				Alumnos[encontro].materias.AddMateriaToList(materia);
+				Console.WriteLine("***Menu modificar materias");
+				Console.WriteLine("1.-Ingrese uno para agregar materia");
+				Console.WriteLine("2.-Ingrese dos para eliminar materia");
+				opcion = Convert.ToInt32(Console.ReadLine());
+				
+				switch(opcion){
+					case 1:
+					Alumnos[encontro].materias.AgregarMateria();
+	
+					break;
+					case 2:
+					break;	
+				}
+				
 			}
 			
 		}
