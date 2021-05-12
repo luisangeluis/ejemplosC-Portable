@@ -278,9 +278,16 @@ class CMaterias{
 	}
 	
 	public void GetMaterias(){
+		Console.WriteLine("***MATERIAS DISPONIBLES***");
 		
 		for(int x =0; x<materias.Length;x++){
 			Console.WriteLine("{0} {1}",x+1,materias[x].ToString());
+		}
+		Console.WriteLine("***Materias del alumno***");
+
+		for(int i=0; i<materiasAlumno.Count;i++){
+			Console.WriteLine("{0} {1}",i+1,materiasAlumno[i]);
+
 		}
 		
 	}
@@ -311,66 +318,17 @@ class CMaterias{
 		
 		return false;
 	}
- /*   
-    List <CMateria>materias;
-    
-    public CMaterias(){
-        
-        materias = new List<CMateria>();
-        CMateria espanol = new CMateria("español","lunes",5);
-        
-        materias.Add(espanol);
-    }
-    
-    //Agregar materia
-    public bool AddMateriaToList(CMateria pMateria){
-        
-		GetMaterias();
-        if(pMateria is CMateria && pMateria!=null){
-           
-           if(ValidarMateria(pMateria.Nombre)>=0){
-             return false;
-           }else{
-               materias.Add(pMateria);
-           }
-           
-        }
-        
-        return true;
-    } 
-    //Validar materia
-    public int ValidarMateria(string pNombre){
-        
-        int posicion =-1;
-        
-        for(int i = 0; i<materias.Count; i++){
-            if(materias[i].Nombre==pNombre){
-                posicion=i;
-            }  
-        }
-        
-        return posicion;
-    }
-    //Mostrar materias
-    public void GetMaterias(){
-       foreach(CMateria materia in materias){
-            Console.WriteLine(materia.ToString());
-        } 
-    }
-    //Remover materia
-     public bool RemoveMateriToList(string pNombre){
-        
-        int materiaEncontrada = ValidarMateria(pNombre);
-        
-        if(materiaEncontrada>=0){
-            materias.RemoveAt(materiaEncontrada);
-            return true;
-        }
-        
-        return false;
-    }
-     
-*/
+	
+	public bool EliminarMateria(int pNumMateria){
+		
+		if(pNumMateria>=0 && pNumMateria<materias.Length){
+			materiasAlumno.RemoveAt(pNumMateria);
+			return true;
+		}
+		
+		return false;
+	}
+ 
 }
 
 //CLASE PERSONA
@@ -620,6 +578,12 @@ class CControl{
 	
 					break;
 					case 2:
+						int numMateria=-1;
+						Console.WriteLine("Ingrese el numero de materia a eliminar");
+						numMateria = Convert.ToInt32(Console.ReadLine());
+						Alumnos[encontro].materias.EliminarMateria(numMateria);
+
+						
 					break;	
 				}
 				
