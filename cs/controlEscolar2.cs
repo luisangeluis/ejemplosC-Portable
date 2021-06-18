@@ -83,90 +83,56 @@ public class CControlEscolar
 	List<CAlumno> alumnos = new List<CAlumno>();
 	List<CMaestro> maestros = new List<CMaestro>();
 	
-	private bool isAlumno=true;
-	
-	public CRepoMaterias repoMaterias{set;get;}
-
 	public CControlEscolar()
 	{
-		repoMaterias = new CRepoMaterias();
+		
 	}
-	
-	//Metodo para buscar persona
-	public int BuscarPersona(bool pIsAlumno,string pCodigo){
+	//Buscar alumnos
+	public int BuscarAlumno(string pCodigo){
 		int posicion=-1;
-		if(pIsAlumno){
-			for(int i=0;i<alumnos.Count;i++){
-				if(alumnos[i].Codigo==pCodigo)
-					posicion=i;
+		
+		for(int i=0; i<alumnos.Count;i++){
+			if(alumnos[i].Codigo==pCodigo){
+				posicion =i;
 			}
-		}else{
-			for(int i=0;i<maestros.Count;i++){
-				if(maestros[i].Codigo==pCodigo){
-					posicion=i;
-				}
+		}
+		
+		
+		return posicion;
+	}
+	//Buscar maestros
+	public int BuscarMaestro(string pCodigo){
+		int posicion =-1;
+		
+		for(int i=0; i<maestros.Count; i++){
+			if(maestros[i].Codigo==pCodigo){
+				posicion =i;
 			}
-				
 		}
 		return posicion;
 	}
-	//Fin de Metodo para buscar persona
-	//Metodo para agregar persona
-	public bool AgregarPersona(CPerson pPerson){
+	//Agregar Alumnos
+	
+	public bool AgregarAlumno(CAlumno pAlumno){
 		
-		int posicionEncontrada=-1;
+		int encontro=BuscarAlumno(pAlumno.Codigo);
 		
-		if(pPerson is CAlumno){
-			posicionEncontrada = BuscarPersona(true,pPerson.Codigo);
-			
-			if(posicionEncontrada<0){
-				alumnos.Add((CAlumno)pPerson);
-				return true;
-			}else{
-				Console.WriteLine("Alumno ya exite,No agregado");
-				return false;
-			}
-		}
-		
-		if(pPerson is CMaestro){
-			posicionEncontrada = BuscarPersona(false,pPerson.Codigo);
-			
-			if(posicionEncontrada<0){
-				maestros.Add((CMaestro)pPerson);
-				return true;
-			}else{
-				Console.WriteLine("Maestro ya existe, No agregado");
-				return false;
-
-			}
+		if(encontro<0){
+			alumnos.Add(pAlumno);
+			return true;
 		}
 		
 		return false;
 	}
-	//Fin de Metodo para agregar persona
-	//Metodo para eliminar persona
-	public bool EliminarPersona(bool pIsAlumno,string pCodigo){
-		int posicionEncontrada=-1;
+	
+	public bool AgregarMaestro(CMaestro pMaestro){
+		int encontro = BuscarMaestro(pMaestro.Codigo);
 		
-		posicionEncontrada =BuscarPersona(pIsAlumno,pCodigo);
-		
-		if(posicionEncontrada>0){
-			if(pIsAlumno){
-				alumnos.RemoveAt(posicionEncontrada);
-			}else{
-				maestros.RemoveAt(posicionEncontrada);
-
-			}
+		if(encontro<0){
+			maestros.Add(pMaestro);
 			return true;
-		}else{
-			Console.WriteLine("Codigo no encontrado");
-			return false;
 		}
-		
+		return false;
 	}
-	//Fin de Metodo para eliminar persona
-
-	
-	
 	
 }
