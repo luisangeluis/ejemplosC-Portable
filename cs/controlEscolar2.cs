@@ -23,6 +23,8 @@ public abstract class CPerson
 		nombre = pNombre;
 		edad = pEdad;
 	}
+	
+	
 
 	public override string ToString()
 	{
@@ -49,15 +51,25 @@ public class CMaestro : CPerson
 //Class Materia
 public class CMateria
 {
+	private string codigo;
 	private string nombre;
 	private int hora;
 	
-	public CMateria(string pNombre, int pHora)
+	public string Codigo{
+		
+		get{
+			return codigo;
+		}
+	}
+	
+	public CMateria(string pCodigo,string pNombre, int pHora)
 	{
+		codigo = pCodigo;
 		nombre = pNombre;
 		hora = pHora;
 	}
 }
+
 
 //Class Repositorio materias
 public class CRepoMaterias
@@ -67,12 +79,43 @@ public class CRepoMaterias
 	public CRepoMaterias()
 	{
 		materiasDisponibles = new List<CMateria>();
-		CMateria espanol = new CMateria("espanol", 5);
-		CMateria matematicas = new CMateria("matematicas", 6);
-		CMateria historia = new CMateria("historia", 7);
-		CMateria ingles = new CMateria("ingles", 8);
-		CMateria fisica = new CMateria("fisica", 9);
+		CMateria espanol = new CMateria("000","espanol", 5);
+		CMateria matematicas = new CMateria("001","matematicas", 6);
+		CMateria historia = new CMateria("002","historia", 7);
+		CMateria ingles = new CMateria("003","ingles", 8);
+		CMateria fisica = new CMateria("004","fisica", 9);
 	}
+	
+	//Buscar Materia en disponibles
+	public int BuscarMateria(string pCodigo){
+		int posicion=-1;
+		
+		for(int i=0; i<materiasDisponibles.Count;i++){
+			if(materiasDisponibles[i].Codigo==pCodigo){
+				posicion=i;
+			}
+		}
+		return posicion;
+	}
+	
+	//Agregar materia a materias disponibles
+	public bool AgregarMateria(CMateria pMateria){
+		int encontro=-1;
+		
+		if(pMateria!=null){
+			
+			encontro =BuscarMateria(pMateria.Codigo);
+			
+			if(encontro<0){
+				materiasDisponibles.Add(pMateria);
+			}
+			return true;
+
+		}
+		return false;
+	}
+	
+	
 	
 	
 }
@@ -83,56 +126,17 @@ public class CControlEscolar
 	List<CAlumno> alumnos = new List<CAlumno>();
 	List<CMaestro> maestros = new List<CMaestro>();
 	
+	CRepoMaterias repositorio = new CRepoMaterias();
+	
 	public CControlEscolar()
 	{
 		
 	}
-	//Buscar alumnos
-	public int BuscarAlumno(string pCodigo){
-		int posicion=-1;
-		
-		for(int i=0; i<alumnos.Count;i++){
-			if(alumnos[i].Codigo==pCodigo){
-				posicion =i;
-			}
-		}
-		
-		
-		return posicion;
-	}
-	//Buscar maestros
-	public int BuscarMaestro(string pCodigo){
-		int posicion =-1;
-		
-		for(int i=0; i<maestros.Count; i++){
-			if(maestros[i].Codigo==pCodigo){
-				posicion =i;
-			}
-		}
-		return posicion;
-	}
-	//Agregar Alumnos
 	
-	public bool AgregarAlumno(CAlumno pAlumno){
-		
-		int encontro=BuscarAlumno(pAlumno.Codigo);
-		
-		if(encontro<0){
-			alumnos.Add(pAlumno);
-			return true;
-		}
+	public bool AddMateriaToAlumno(string pCodigo){
 		
 		return false;
 	}
 	
-	public bool AgregarMaestro(CMaestro pMaestro){
-		int encontro = BuscarMaestro(pMaestro.Codigo);
-		
-		if(encontro<0){
-			maestros.Add(pMaestro);
-			return true;
-		}
-		return false;
-	}
 	
 }
