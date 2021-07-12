@@ -6,10 +6,21 @@ public class Program
 	public static void Main()
 	{
 		Console.WriteLine("Control Escolar");
+		
+		CRepoMaterias materiasDisponibles = new CRepoMaterias();
+		/*
+		foreach(CMateria m in materiasDisponibles.materiasDisponibles){
+			Console.WriteLine(m.ToString());
+		}
+		*/
+		
+		for(int i=0; i<10;i++){
+			Console.WriteLine(materiasDisponibles[i]);
+		}
 	}
 }
 
-//Class Person
+//Class Perso
 public abstract class CPerson
 {
 	public string Codigo{set;get;}
@@ -65,6 +76,10 @@ public class CMateria
 		nombre = pNombre;
 		hora = pHora;
 	}
+	
+	public override string ToString(){
+		return string.Format("nombre: "+ Nombre);
+	}
 }
 
 
@@ -81,6 +96,20 @@ public class CRepoMaterias
 		CMateria historia = new CMateria("002","historia", 7);
 		CMateria ingles = new CMateria("003","ingles", 8);
 		CMateria fisica = new CMateria("004","fisica", 9);
+		
+		materiasDisponibles.Add(espanol);
+		materiasDisponibles.Add(matematicas);
+		materiasDisponibles.Add(historia);
+		materiasDisponibles.Add(ingles);
+		materiasDisponibles.Add(fisica);
+
+
+	}
+	
+	public CMateria this[int indice]{
+		get{
+			return materiasDisponibles[indice];
+		}
 	}
 	
 	//Buscar Materia en disponibles
