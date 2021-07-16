@@ -7,16 +7,7 @@ public class Program
 	{
 		Console.WriteLine("Control Escolar");
 		
-		CRepoMaterias materiasDisponibles = new CRepoMaterias();
-		/*
-		foreach(CMateria m in materiasDisponibles.materiasDisponibles){
-			Console.WriteLine(m.ToString());
-		}
-		*/
 		
-		for(int i=0; i<10;i++){
-			Console.WriteLine(materiasDisponibles[i]);
-		}
 	}
 }
 
@@ -26,7 +17,8 @@ public abstract class CPerson
 	public string Codigo{set;get;}
 	private string nombre;
 	private int edad;
-	private List<CMateria> materias = new List<CMateria>();
+	/*private List<CMateria> materias = new List<CMateria>();*/
+	public CRepoMaterias repoMaterias = new CRepoMaterias();
 	
 	public CPerson(string pCodigo,string pNombre, int pEdad)
 	{
@@ -58,6 +50,87 @@ public class CMaestro : CPerson
 	{
 	}
 }
+//Interface repositorio
+public interface RepoPersona{
+	bool AgregarPersona(CPerson pPerson);
+	bool EliminarPersona(string pCodigo);
+	bool ModificarPersona(string pCodigo);
+	void VerPersonas();
+	int BuscarPersona(string pCodigo);
+}
+//Clase repositorio alumnos
+public class RepositorioAlumnos: RepoPersona{
+
+	public List<CAlumno> Alumnos; 
+	
+	public RepositorioAlumnos(){
+		Alumnos  = new List<CAlumno>();
+		CAlumno alumno = new CAlumno("0000","luis",30);	
+		Alumnos.Add(alumno);
+	
+	}
+	//Buscar Persona
+	public int BuscarPersona(string pCodigo){
+		int posicion=-1;
+		
+		for(int i=0; i<Alumnos.Count;i++){
+			if(Alumnos[i].Codigo==pCodigo){
+				posicion = i;
+			}
+		}
+				
+		return posicion;
+	}
+	//Agregar alumno
+	public bool AgregarPersona(CPerson pPerson){
+	
+		int encontro = BuscarPersona(pPerson.Codigo);
+	
+		if(encontro>=0){
+			return false;
+		}else{
+		
+			Alumnos.Add((CAlumno)pPerson);
+			
+			return true;
+
+		}
+		
+	}
+	//Eliminar alumno
+	public bool EliminarPersona(string pCodigo){
+		int encontro = BuscarPersona(pCodigo);
+		
+		if(encontro>=0){
+			Alumnos.RemoveAt(encontro);
+			return true;
+		}else{
+			return false;
+		}
+	}
+	//Ver lista de alumnos
+	public void VerPersonas(){
+		
+		foreach(CAlumno alu in Alumnos){
+			Console.WriteLine(alu.ToString());
+		}
+	}
+	//Modificar alumno
+	public bool ModificarPersona(string pCodigo){
+	
+		int encontro = BuscarPersona(pCodigo);
+		
+		if(encontro>=0){
+			
+			Console.WriteLine("Alumno a modificar {0}",Alumnos[encontro]);
+			
+			
+			return true;
+		}else{
+			return false;
+		}
+	}
+}
 
 //Class Materia
 public class CMateria
@@ -78,7 +151,7 @@ public class CMateria
 	}
 	
 	public override string ToString(){
-		return string.Format("nombre: "+ Nombre);
+		return string.Format("Codigo: "+Codigo+" nombre: "+ Nombre+" Hora: "+Hora);
 	}
 }
 
@@ -109,6 +182,12 @@ public class CRepoMaterias
 	public CMateria this[int indice]{
 		get{
 			return materiasDisponibles[indice];
+		}
+	}
+	
+	public void MostrarMateriasDisponibles(){
+		foreach(CMateria m in materiasDisponibles){
+			Console.WriteLine(m.ToString());
 		}
 	}
 	
@@ -154,7 +233,7 @@ public class CRepoMaterias
 		
 		return false;
 	}
-	
+	//Modificar materia de disponibles
 	public bool ModificarMateria(string pCodigo){
 		int encontro =-1;
 		
@@ -188,6 +267,8 @@ public class CRepoMaterias
 	
 }
 
+
+
 //Class ControlEscolar
 public class CControlEscolar
 {
@@ -201,10 +282,7 @@ public class CControlEscolar
 		
 	}
 	
-	public bool AddMateriaToAlumno(string pCodigo){
-		
-		return false;
-	}
 	
+		
 	
 }
